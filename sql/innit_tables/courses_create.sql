@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS courses;
+CREATE TABLE courses(
+	id VARCHAR(50) NOT NULL,
+    teacherId VARCHAR(50) NOT NULL,
+	courseName VARCHAR(50) NOT NULL,
+	hp INTEGER NOT NULL,
+	PRIMARY KEY(id),
+    FOREIGN KEY(teacherId) REFERENCES users(id));
