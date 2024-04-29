@@ -39,7 +39,37 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE courses_teacher(IN teacherName VARCHAR(50)) -- Hämta alla kurser utlärda av specifik lärare
 BEGIN
-    --Inte klar
+    SELECT courses.courseName, courses.hp
+    FROM courses
+    JOIN users ON courses.teacherId = users.userId
+    WHERE users.userName = teacherName;
+
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE assignments_course(IN CourseName VARCHAR(50)) -- Hämta alla assignments per course
+BEGIN
+    SELECT assignments.assignmentName, assignments.hp
+    FROM assignments
+    INNER JOIN courses ON assignments.courseId = courses.courseId
+    WHERE courses.courseName = CourseName;
+
+END //
+
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE grade_assignment_user(IN uName VARCHAR(50), IN aName VARCHAR(50)) -- Hämta grade för en assignment per user
+BEGIN
+    SELECT g.grade
+    FROM grades g
+    INNER JOIN assignments a ON g.assignmentId = a.assignmentId
+    INNER JOIN users u ON g.userId = u.userId
+    WHERE a.assignmentName = aName
+    AND u.userName = uName;
 
 END //
 
