@@ -11,6 +11,20 @@ END //
 
 DELIMITER ;
 
+
+DELIMITER //
+CREATE PROCEDURE remove_teacher(IN uName VARCHAR(50)) -- ta bort en teacher användare (lämnar kursen kvar men utan en lärare)
+BEGIN
+    UPDATE courses
+    SET teacherId = NULL
+    WHERE userId IN (SELECT userId FROM users WHERE userName = uName);
+    DELETE FROM users
+    WHERE userName = uName;
+END //
+
+DELIMITER ;
+
+
 DELIMITER //
 CREATE PROCEDURE remove_course(IN cName VARCHAR(50)) -- ta bort en kurs
 BEGIN
