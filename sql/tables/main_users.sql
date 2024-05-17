@@ -26,10 +26,7 @@ CREATE TABLE `users` (
   `userId` int NOT NULL AUTO_INCREMENT,
   `userRole` varchar(50) NOT NULL DEFAULT 'student',
   `userFName` varchar(50) NOT NULL,
-  `userLName` varchar(50) NOT NULL,
   `userName` varchar(50) DEFAULT NULL UNIQUE,
-  `email` VARCHAR(255) NOT NULL UNIQUE,
-  `program` VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
