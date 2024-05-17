@@ -9,17 +9,25 @@ def check_user (uName):
 	cnx, mycursor = connect_to_db() 
 	y = 0
 	ret = mycursor.callproc('check_user', [uName, y])
-	print(ret)
 	cnx.close()
 	return ret[1]
 
 
-def add_user ():
+def add_student ():
 	name = input('Name: ')
 	cnx, mycursor = connect_to_db() 
 	y = 0
-	mycursor.callproc('add_user', [name, y])
+	result = mycursor.callproc('add_student', [name])
 	cnx.commit()
+	print(result)
+	cnx.close()
+
+def add_teacher ():
+	name = input('Name: ')
+	cnx, mycursor = connect_to_db() 
+	result = mycursor.callproc('add_teacher', [name])
+	cnx.commit()
+	print(result)
 	cnx.close()
 
 
@@ -68,15 +76,25 @@ def show_users ():
 		print(x)
 	print('')
 	cnx.close()
-
-
+	
 def show_courses ():
-	cnx, mycursor = connect_to_db() 
-	print('courses: ')
+	print('Courses:')
+	cnx, mycursor = connect_to_db()
 	mycursor.execute("SELECT * FROM courses")
 	for x in mycursor:
 		print(x)
 	print('')
+	cnx.close()
+
+
+def show_your_courses (u_name):
+	cnx, mycursor = connect_to_db()
+	y = 0
+	mycursor.callproc('courses_teacher', [u_name])
+	cnx.commit()
+	for result in mycursor.stored_results():
+		print(result.fetchall())
+	cnx.close()
 	cnx.close()
 
 
