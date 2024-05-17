@@ -74,3 +74,16 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE grades_course_user(IN cName VARCHAR(50), IN uID INT)  --hämta alla grades för en specifik user och course
+BEGIN
+    SELECT a.assignmentName, g.grade
+    FROM grades g
+    INNER JOIN assignments a ON g.assignmentId = a.assignmentId
+    INNER JOIN courses c ON a.courseId = c.courseId
+    WHERE c.courseName = cName
+    AND g.userId = uID;
+END //
+DELIMITER ;
