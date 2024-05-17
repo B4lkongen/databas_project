@@ -29,7 +29,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE course_info(IN CourseName VARCHAR(50)) -- Hämta info om specifik kurs
 BEGIN
-    SELECT courses.courseName, courses.hp 
+    SELECT courses.courseName, courses.hp , courses.teacherId
     FROM courses
     WHERE courses.courseName = CourseName; -- fixa så denna hämtar teacher namnet också
 END //
