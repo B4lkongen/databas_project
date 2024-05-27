@@ -233,7 +233,7 @@ def add_registration ():
 	cnx, mycursor = connect_to_db()
 
 	user_name = input('User Name: ')
-	courseId = input('Course Name: ')
+	courseId = input('Course Id: ')
 	
 	try:
 		results = mycursor.callproc('add_registration', [user_name,courseId,0])
