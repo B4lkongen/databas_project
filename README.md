@@ -20,3 +20,4 @@ Replace in the sql.py file all ocurenses of localhost with the ip of the compute
 Running the databasedump.sql file should be run in the database by a privleged user which should setup the whole database.
 
 -------------------------------------------------------------------
+To login and use the application a admin user needs to be created in the sql database, the admin can then login through the application with their acronym and create other users.
