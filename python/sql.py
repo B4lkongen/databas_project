@@ -5,7 +5,7 @@ import mysql.connector
 
 
 def connect_to_db():
-	cnx = mysql.connector.connect(user='balko', password='DHjsKl!!l34', host='192.120.12.220', database='main')
+	cnx = mysql.connector.connect(user='your_username_here', password='your_password_here', host='localhost', database='main')
 	mycursor = cnx.cursor()
 	return cnx, mycursor
 
