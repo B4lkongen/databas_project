@@ -1,5 +1,5 @@
 # databas_project
-
+Adrian Adborn, Viktor Listi
 
 --------------------------------------------------------------------
 Prereqesits:
