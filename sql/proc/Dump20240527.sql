@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `main1` /*!40100 DEFAULT CHARACTER SET utf8mb4 CO
 USE `main1`;
 -- MySQL dump 10.13  Distrib 8.0.37, for Linux (x86_64)
 --
--- Host: localhost    Database: main
+-- Host: localhost    Database: main1
 -- ------------------------------------------------------
 -- Server version	8.0.37
 
