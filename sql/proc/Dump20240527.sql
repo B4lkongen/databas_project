@@ -43,7 +43,7 @@ CREATE TABLE `assignments` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`findus`@`localhost`*/ /*!50003 TRIGGER `hp_updater_insert` AFTER INSERT ON `assignments` FOR EACH ROW UPDATE courses
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `hp_updater_insert` AFTER INSERT ON `assignments` FOR EACH ROW UPDATE courses
 SET courses.hp = (SELECT SUM(assignments.hp) FROM assignments WHERE courseId = NEW.courseId)
 WHERE courseId = NEW.courseId */;;
 DELIMITER ;
@@ -60,7 +60,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`findus`@`localhost`*/ /*!50003 TRIGGER `hp_updater_delete` AFTER DELETE ON `assignments` FOR EACH ROW UPDATE courses
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `hp_updater_delete` AFTER DELETE ON `assignments` FOR EACH ROW UPDATE courses
 SET courses.hp = (SELECT SUM(assignments.hp) FROM assignments WHERE courseId = OLD.courseId)
 WHERE courseId = OLD.courseId */;;
 DELIMITER ;
@@ -134,7 +134,7 @@ CREATE TABLE `registrations` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`findus`@`localhost`*/ /*!50003 TRIGGER `registration_insert_grade` AFTER INSERT ON `registrations` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `registration_insert_grade` AFTER INSERT ON `registrations` FOR EACH ROW BEGIN
     INSERT INTO grades (assignmentId, userId, grade)
     SELECT assignmentId, NEW.userId, 0
     FROM assignments
@@ -189,7 +189,7 @@ CREATE TABLE `users` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `add_assignment`(in cId INT,IN aName VARCHAR(50),IN aHp INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_assignment`(in cId INT,IN aName VARCHAR(50),IN aHp INT)
 BEGIN
 INSERT INTO assignments (courseId, assignmentName, hp)
 VALUES (cId, aName, aHp);
@@ -209,7 +209,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `add_course`(IN uName VARCHAR(50),
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_course`(IN uName VARCHAR(50),
 								IN cName VARCHAR(50))
 BEGIN
 DECLARE uId INT;
@@ -235,7 +235,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `add_grade`(IN uName VARCHAR(50), IN aId INT, OUT ret BOOL)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_grade`(IN uName VARCHAR(50), IN aId INT, OUT ret BOOL)
 BEGIN
 DECLARE uId INT;
 SET uId = (SELECT userId FROM users WHERE userName = uName);
@@ -260,7 +260,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `add_registration`(IN uName VARCHAR(50),IN cId INT, OUT ret BOOL)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_registration`(IN uName VARCHAR(50),IN cId INT, OUT ret BOOL)
 BEGIN
 DECLARE uId INT;
 SET ret = 0;
@@ -289,7 +289,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `add_student`(IN fName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_student`(IN fName VARCHAR(50))
 BEGIN
 DECLARE x BOOL;
 DECLARE counter INT;
@@ -320,7 +320,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `add_teacher`(IN fName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_teacher`(IN fName VARCHAR(50))
 BEGIN
 DECLARE x BOOL;
 DECLARE counter INT;
@@ -352,7 +352,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `add_user`(IN fName VARCHAR(50), OUT ret BOOL)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_user`(IN fName VARCHAR(50), OUT ret BOOL)
 BEGIN
 DECLARE x BOOL;
 DECLARE counter INT;
@@ -383,7 +383,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `assignments_course`(IN cName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `assignments_course`(IN cName VARCHAR(50))
 BEGIN
 	DECLARE cId INT;
 	SET cId = (SELECT courseId FROM courses WHERE courseName = cName);
@@ -406,7 +406,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `change_grade`(IN uName VARCHAR(50), IN aId INT,IN grade INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `change_grade`(IN uName VARCHAR(50), IN aId INT,IN grade INT)
 BEGIN
 DECLARE uId INT;
 SET uId = (SELECT userId FROM users WHERE userName = uName);
@@ -429,7 +429,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `check_user`(IN uName VARCHAR(50),OUT ret VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `check_user`(IN uName VARCHAR(50),OUT ret VARCHAR(50))
 BEGIN
 SET ret = (SELECT userRole FROM users WHERE userName = uName);
 END ;;
@@ -448,7 +448,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `courses_all`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `courses_all`()
 BEGIN
     SELECT courses.courseName, courses.hp FROM courses;
 END ;;
@@ -467,7 +467,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `courses_teacher`(IN uName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `courses_teacher`(IN uName VARCHAR(50))
 BEGIN
 	DECLARE uId INT;
 	SET uId = (SELECT userId FROM users WHERE userName = uName);
@@ -492,7 +492,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `course_info`(IN CourseName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `course_info`(IN CourseName VARCHAR(50))
 BEGIN
     SELECT courses.courseName, courses.hp 
     FROM courses
@@ -513,7 +513,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `grade_assignment_user`(IN uName VARCHAR(50), IN aName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `grade_assignment_user`(IN uName VARCHAR(50), IN aName VARCHAR(50))
 BEGIN
     SELECT g.grade
     FROM grades g
@@ -538,7 +538,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `registrations_course`(IN CourseName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registrations_course`(IN CourseName VARCHAR(50))
 BEGIN
     SELECT registrations.registrationId, registrations.userId 
     FROM registrations
@@ -560,7 +560,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `remove_assignment`(IN aName VARCHAR(50), IN cName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_assignment`(IN aName VARCHAR(50), IN cName VARCHAR(50))
 BEGIN
     DECLARE aID INT;
     DECLARE cId INT;
@@ -595,7 +595,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `remove_course`(IN cName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_course`(IN cName VARCHAR(50))
 BEGIN
 
     DECLARE cID INT;
@@ -628,7 +628,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `remove_grade`(IN aName VARCHAR(50),IN uName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_grade`(IN aName VARCHAR(50),IN uName VARCHAR(50))
 BEGIN
 
     DECLARE aID INT;
@@ -662,7 +662,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `remove_registration`(IN cName VARCHAR(50),IN uName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_registration`(IN cName VARCHAR(50),IN uName VARCHAR(50))
 BEGIN
     DECLARE usID INT;
     DECLARE cID INT;
@@ -695,7 +695,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `remove_teacher`(IN uName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_teacher`(IN uName VARCHAR(50))
 BEGIN
     UPDATE courses
     SET teacherId = NULL
@@ -718,7 +718,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `remove_user`(IN uName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_user`(IN uName VARCHAR(50))
 BEGIN
     DELETE FROM grades
     WHERE userId IN (SELECT userId FROM users WHERE userName = uName);
@@ -742,7 +742,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `show_students`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `show_students`()
 BEGIN
 SELECT userName, userFName, userRole
 FROM users
@@ -763,7 +763,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `student_get_data`(IN uName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `student_get_data`(IN uName VARCHAR(50))
 BEGIN
 DECLARE uId INT;
 SET uId = NULL;
@@ -794,7 +794,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`findus`@`localhost` PROCEDURE `user_info`(IN uName VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user_info`(IN uName VARCHAR(50))
 BEGIN
     SELECT * FROM users WHERE userName = uName;
 END ;;
@@ -816,7 +816,7 @@ DELIMITER ;
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`findus`@`localhost` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `show_users` AS select `users`.`userFName` AS `userFName`,`users`.`userRole` AS `userRole`,`users`.`userName` AS `userName` from `users` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
